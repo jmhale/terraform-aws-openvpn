@@ -67,19 +67,20 @@ resource "aws_instance" "openvpn_instance" {
 
   user_data = <<EOF
 #!/bin/bash
-sudo apt-get update -y
-sudo apt-get install -y openvpn easy-rsa awscli
-sudo aws configure set s3.signature_version s3v4
-sudo aws s3 sync s3://dogsec-build-artifacts/openvpn /etc/openvpn
-sudo mv /etc/openvpn/before.rules /etc/ufw/before.rules
-sudo sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/g' /etc/default/ufw
-sudo mv /etc/openvpn/sysctl.conf /etc/sysctl.conf
-sudo sysctl -p
-sudo ufw allow ssh
-sudo ufw allow https
-sudo ufw --force enable
-sudo systemctl enable openvpn@server
-sudo systemctl start openvpn@server
+apt-get update
+apt-get upgrade -y
+apt-get install -y openvpn easy-rsa awscli
+aws configure set s3.signature_version s3v4
+aws s3 sync s3://dogsec-build-artifacts/openvpn /etc/openvpn
+mv /etc/openvpn/before.rules /etc/ufw/before.rules
+sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/g' /etc/default/ufw
+mv /etc/openvpn/sysctl.conf /etc/sysctl.conf
+sysctl -p
+ufw allow ssh
+ufw allow https
+ufw --force enable
+systemctl enable openvpn@server
+systemctl start openvpn@server
 EOF
 
   tags {
