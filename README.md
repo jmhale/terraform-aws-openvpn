@@ -11,9 +11,5 @@ module "terraform-aws-openvpn" {
 
 ```
 
-
-LICENSE: 3-clause BSD license.
-
-
 ---
 Copyright © 2019, James Hale
